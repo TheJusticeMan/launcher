@@ -3,6 +3,7 @@ package de.jrpie.android.launcher.ui
 import kotlin.math.atan2
 import kotlin.math.abs
 import kotlin.math.sqrt
+import kotlin.math.PI
 
 /**
  * Detects arbitrary gestures by comparing the shape (sequence of angles) of user input
@@ -227,8 +228,8 @@ class ArbitraryGestureDetector {
             var diff = abs(angle1 - angle2)
             
             // Normalize to [-π, π]
-            if (diff > Math.PI) {
-                diff = 2 * Math.PI - diff
+            if (diff > PI) {
+                diff = 2 * PI - diff
             }
             
             totalDiff += diff

@@ -51,14 +51,14 @@ The `calculateDifference` method compares the local direction of the two paths:
 val gestureDetector = ArbitraryGestureDetector()
 
 // Register some gesture commands with preset paths
-val circleGesture = listOf(
+val squareGesture = listOf(
     ArbitraryGestureDetector.Offset(0f, 0f),
     ArbitraryGestureDetector.Offset(100f, 0f),
     ArbitraryGestureDetector.Offset(100f, 100f),
     ArbitraryGestureDetector.Offset(0f, 100f),
     ArbitraryGestureDetector.Offset(0f, 0f)
 )
-gestureDetector.addGestureCommand("circle", circleGesture)
+gestureDetector.addGestureCommand("square", squareGesture)
 
 val zigzagGesture = listOf(
     ArbitraryGestureDetector.Offset(0f, 0f),

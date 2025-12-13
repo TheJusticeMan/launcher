@@ -1,5 +1,7 @@
 package de.jrpie.android.launcher.ui
 
+import android.util.Log
+
 /**
  * Example demonstrating how to use the ArbitraryGestureDetector
  * 
@@ -109,13 +111,13 @@ class ArbitraryGestureExample {
      */
     fun handleGesture(gestureName: String?) {
         when (gestureName) {
-            "CIRCLE" -> println("Circle gesture detected - Opening menu")
-            "TRIANGLE" -> println("Triangle gesture detected - Going up")
-            "SQUARE" -> println("Square gesture detected - Maximizing")
-            "Z_SHAPE" -> println("Z gesture detected - Undo action")
-            "STAR" -> println("Star gesture detected - Mark as favorite")
-            null -> println("Unknown or invalid gesture")
-            else -> println("Gesture detected: $gestureName")
+            "CIRCLE" -> Log.i("ArbitraryGesture", "Circle gesture detected - Opening menu")
+            "TRIANGLE" -> Log.i("ArbitraryGesture", "Triangle gesture detected - Going up")
+            "SQUARE" -> Log.i("ArbitraryGesture", "Square gesture detected - Maximizing")
+            "Z_SHAPE" -> Log.i("ArbitraryGesture", "Z gesture detected - Undo action")
+            "STAR" -> Log.i("ArbitraryGesture", "Star gesture detected - Mark as favorite")
+            null -> Log.i("ArbitraryGesture", "Unknown or invalid gesture")
+            else -> Log.i("ArbitraryGesture", "Gesture detected: $gestureName")
         }
     }
 }
