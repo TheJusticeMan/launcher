@@ -34,7 +34,7 @@ For every known gesture in the `gestureCommands` list:
 
 The `calculateDifference` method compares the local direction of the two paths:
 - It iterates through the segments of both lines.
-- For each segment, it calculates the vector angle using `Math.atan2`.
+- For each segment, it calculates the vector angle using `atan2` from `kotlin.math`.
 - It computes the absolute difference between the angle of the user's input and the angle of the preset.
 - It averages these differences to get a score.
 

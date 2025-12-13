@@ -8,6 +8,29 @@ import kotlin.math.PI
 /**
  * Detects arbitrary gestures by comparing the shape (sequence of angles) of user input
  * against pre-recorded gesture paths.
+ * 
+ * The algorithm works in four phases:
+ * 1. **Input Collection**: Captures touch points and filters out invalid gestures
+ * 2. **Normalization**: Translates to origin and resamples to fixed point count
+ * 3. **Comparison**: Calculates average angular difference between input and presets
+ * 4. **Decision**: Returns best match if within threshold, or null if no match
+ * 
+ * Usage:
+ * ```
+ * val detector = ArbitraryGestureDetector()
+ * detector.addGestureCommand("circle", circlePoints)
+ * 
+ * // In touch handlers:
+ * detector.startDrag()              // ACTION_DOWN
+ * detector.addPoint(x, y)           // ACTION_MOVE
+ * val gesture = detector.endDrag()  // ACTION_UP
+ * ```
+ * 
+ * Features:
+ * - Scale invariant (normalized size)
+ * - Position invariant (translated to origin)
+ * - Speed invariant (resampled to fixed points)
+ * - Rotation sensitive (by design, uses angle sequences)
  */
 class ArbitraryGestureDetector {
     
@@ -115,9 +138,12 @@ class ArbitraryGestureDetector {
      * Normalizes a line by:
      * 1. Translating to origin (first point at 0,0)
      * 2. Resampling to fixed number of points
+     * 
+     * @return Normalized path, or empty list if input is invalid
      */
     private fun normalizeLine(path: List<Offset>): List<Offset> {
         if (path.isEmpty()) return emptyList()
+        if (path.size == 1) return List(RESAMPLE_POINT_COUNT) { path[0] }
         
         // Translation: shift so first point is at (0, 0)
         val firstPoint = path[0]
@@ -203,6 +229,9 @@ class ArbitraryGestureDetector {
     
     /**
      * Calculates the average angular difference between two paths
+     * 
+     * Uses Double precision for angle calculations to maintain accuracy,
+     * then converts to Float for the final result.
      */
     private fun calculateDifference(path1: List<Offset>, path2: List<Offset>): Float {
         if (path1.size < 2 || path2.size < 2) {
