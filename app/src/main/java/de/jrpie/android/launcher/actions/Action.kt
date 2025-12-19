@@ -106,7 +106,7 @@ sealed interface Action {
                 // If we have gesture information, open the action picker for that gesture
                 if (gesture != null) {
                     val intent = Intent(context, SelectActionActivity::class.java)
-                    intent.putExtra(AbstractListActivity.KEY_HIDDEN_VISIBILITY, AppFilter.Companion.AppSetVisibility.VISIBLE)
+                    intent.putExtra(AbstractListActivity.KEY_HIDDEN_VISIBILITY, AppFilter.AppSetVisibility.VISIBLE)
                     intent.putExtra(AbstractListActivity.KEY_FOR_GESTURE, gesture.id)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     context.startActivity(intent)
