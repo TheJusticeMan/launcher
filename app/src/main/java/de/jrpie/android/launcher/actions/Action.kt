@@ -2,6 +2,7 @@ package de.jrpie.android.launcher.actions
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences.Editor
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -9,7 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.edit
 import de.jrpie.android.launcher.R
+import de.jrpie.android.launcher.apps.AppFilter
 import de.jrpie.android.launcher.preferences.LauncherPreferences
+import de.jrpie.android.launcher.ui.list.AbstractListActivity
+import de.jrpie.android.launcher.ui.list.SelectActionActivity
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -88,7 +92,8 @@ sealed interface Action {
             action: Action?,
             context: Context,
             animationIn: Int = android.R.anim.fade_in,
-            animationOut: Int = android.R.anim.fade_out
+            animationOut: Int = android.R.anim.fade_out,
+            gesture: Gesture? = null
         ) {
             if (action != null && action.invoke(context)) {
                 if (context is Activity) {
@@ -98,11 +103,20 @@ sealed interface Action {
                     context.overridePendingTransition(animationIn, animationOut)
                 }
             } else {
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.toast_cant_open_message),
-                    Toast.LENGTH_SHORT
-                ).show()
+                // If we have gesture information, open the action picker for that gesture
+                if (gesture != null) {
+                    val intent = Intent(context, SelectActionActivity::class.java)
+                    intent.putExtra(AbstractListActivity.KEY_HIDDEN_VISIBILITY, AppFilter.AppSetVisibility.VISIBLE)
+                    intent.putExtra(AbstractListActivity.KEY_FOR_GESTURE, gesture.id)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                } else {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.toast_cant_open_message),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }

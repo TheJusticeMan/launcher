@@ -357,7 +357,7 @@ enum class Gesture(
     operator fun invoke(context: Context) {
         Log.i("Launcher", "Detected gesture: $this")
         val action = Action.forGesture(this)
-        Action.launch(action, context, this.animationIn, this.animationOut)
+        Action.launch(action, context, this.animationIn, this.animationOut, this)
     }
 
     companion object {
